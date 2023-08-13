@@ -12,7 +12,7 @@ export default function Sidebar() {
   return (
     <div>
       <div className={`${isSidebarOpened ? 'invisible' : 'visible'}
-        absolute left-0 top-0 m-6`}
+        fixed left-0 top-0 m-6`}
       >
         <button
           type="button"
@@ -22,12 +22,12 @@ export default function Sidebar() {
           <HiBars3 name="open sidebar" />
         </button>
       </div>
-      <div className={`${isSidebarOpened ? 'visible' : 'invisible translate-x-[-23rem]'}
-        absolute left-0 top-0 z-50 m-6 flex w-80 flex-col gap-8 bg-white transition-all duration-500 ease-in-out`}
+      <div className={`${isSidebarOpened ? 'visible' : 'invisible translate-x-[-24rem]'}
+        fixed left-0 top-0 z-50 flex h-screen w-96 flex-col gap-8 bg-white p-6 transition-all duration-500 ease-in-out`}
       >
         <button
           type="button"
-          className="absolute right-0 top-0 text-3xl"
+          className="absolute right-0 top-0 m-6 text-3xl"
           onClick={() => setIsSidebarOpened(false)}
         >
           <HiChevronDoubleLeft name="close sidebar" />
