@@ -16,7 +16,11 @@ export default function RootLayout({
     <html lang="ko">
       <body>
         <Sidebar />
-        {children}
+        <main className="flex min-h-screen w-screen flex-col items-center justify-between p-24
+      max-lg:block"
+        >
+          {children}
+        </main>
       </body>
     </html>
   );
