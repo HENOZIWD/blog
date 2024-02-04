@@ -17,14 +17,14 @@ interface Post {
 const postDir = path.join(process.cwd(), path.join('public', 'post'));
 
 export async function getAllPostCard() {
-  const fileNames = fs.readdirSync(postDir);
-  const postsData: PostCard[] = fileNames.map((fileName) => {
-    const fullPath = path.join(postDir, fileName);
-    const post = fs.readFileSync(fullPath, 'utf-8');
+  const directories = fs.readdirSync(postDir, { withFileTypes: true });
+  const postsData: PostCard[] = directories.filter((dir) => dir.isDirectory()).map((dir) => {
+    const postPath = path.join(postDir, dir.name, `${dir.name}.md`);
+    const post = fs.readFileSync(postPath, 'utf-8');
     const matterResult = matter(post);
 
     return {
-      id: fileName.replace(/\.md$/, ''),
+      id: dir.name,
       title: matterResult.data.title,
       createdAt: matterResult.data.createdAt,
     };
@@ -33,9 +33,9 @@ export async function getAllPostCard() {
   return postsData;
 }
 
-export async function getPost(fileName: string): Promise<Post> {
-  const fullPath = path.join(postDir, `${fileName}.md`);
-  const post = fs.readFileSync(fullPath, 'utf-8');
+export async function getPost(postName: string): Promise<Post> {
+  const postPath = path.join(postDir, postName, `${postName}.md`);
+  const post = fs.readFileSync(postPath, 'utf-8');
   const matterResult = matter(post);
 
   return {
