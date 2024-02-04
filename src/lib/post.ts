@@ -20,14 +20,15 @@ export async function getAllPostCard() {
       const post = fs.readFileSync(postPath, 'utf-8');
       const matterResult = matter(post);
 
-      const images = fs.readdirSync(path.join(postDir, dir.name, 'images'));
+      const thumbnailPath = path.join(postDir, dir.name, 'images');
+      const images = fs.existsSync(thumbnailPath) ? fs.readdirSync(thumbnailPath) : null;
 
       postsData.push({
         id: dir.name,
         title: matterResult.data.title,
         description: matterResult.data.description,
         createdAt: matterResult.data.createdAt,
-        thumbnail: images.length > 0 ? `/post/${dir.name}/images/${images[0]}` : null,
+        thumbnail: images && images.length > 0 ? `/post/${dir.name}/images/${images[0]}` : null,
       });
     }
   });

@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="prose prose-indigo min-h-[60rem] w-[48rem] max-w-[48rem] p-6
+    <div className="prose prose-indigo min-h-[60rem] w-[64rem] max-w-[64rem] p-6
       prose-code:before:content-[''] prose-code:after:content-['']"
     >
       <h1>{post.title}</h1>
