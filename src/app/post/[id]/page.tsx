@@ -13,6 +13,14 @@ export async function generateStaticParams() {
 export default async function Page({ params }: { params: { id: string } }) {
   const post = await getPost(params.id);
 
+  if (!post) {
+    return (
+      <div>
+        there is no post.
+      </div>
+    );
+  }
+
   return (
     <div className="prose prose-indigo min-h-[60rem] w-[48rem] max-w-[48rem] p-6
       prose-code:before:content-[''] prose-code:after:content-['']"
