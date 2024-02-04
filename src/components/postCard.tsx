@@ -1,14 +1,9 @@
 import Link from 'next/link';
-
-interface PostCardProps {
-  id: string;
-  image: string;
-  title: string;
-  description: string;
-}
+import Image from 'next/image';
+import { PostCardProps } from '@/types/post';
 
 export default function PostCard({
-  id, image, title, description,
+  id, title, description, createdAt, thumbnail,
 }: PostCardProps) {
   return (
     <div className="flex gap-4">
@@ -21,10 +16,19 @@ export default function PostCard({
         <p className="text-newspaper-darkgray">
           {description}
         </p>
+        <p className="text-newspaper-darkgray">
+          {createdAt}
+        </p>
       </section>
       <div className="w-0 border-l border-l-newspaper-darkgray/20" />
-      <div className="min-h-[331px] w-1/2">
-        image
+      <div className="relative min-h-[331px] w-1/2">
+        {thumbnail ? (
+          <Image
+            src={thumbnail}
+            alt="thumbnail"
+            fill
+          />
+        ) : null}
       </div>
     </div>
   );

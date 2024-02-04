@@ -1,12 +1,7 @@
 import * as fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-
-interface PostCard {
-  id: string;
-  title: string;
-  createdAt: string;
-}
+import { PostCardProps } from '@/types/post';
 
 interface Post {
   title: string;
@@ -18,17 +13,21 @@ const postDir = path.join(process.cwd(), path.join('public', 'post'));
 
 export async function getAllPostCard() {
   const directories = fs.readdirSync(postDir, { withFileTypes: true });
-  const postsData: PostCard[] = [];
+  const postsData: PostCardProps[] = [];
   directories.filter((dir) => dir.isDirectory()).forEach((dir) => {
     const postPath = path.join(postDir, dir.name, `${dir.name}.md`);
     if (fs.existsSync(postPath)) {
       const post = fs.readFileSync(postPath, 'utf-8');
       const matterResult = matter(post);
 
+      const images = fs.readdirSync(path.join(postDir, dir.name, 'images'));
+
       postsData.push({
         id: dir.name,
         title: matterResult.data.title,
+        description: matterResult.data.description,
         createdAt: matterResult.data.createdAt,
+        thumbnail: images.length > 0 ? `/post/${dir.name}/images/${images[0]}` : null,
       });
     }
   });

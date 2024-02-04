@@ -7,17 +7,20 @@ export default async function Home() {
 
   return (
     <PostList>
-      {posts.map((post, index) => (
+      {posts.map(({
+        id, title, description, createdAt, thumbnail,
+      }, index) => (
         <>
           {index === 0
             ? null
             : <div className="h-0 w-full border-t border-t-newspaper-darkgray" />}
-          <li key={post.id}>
+          <li key={id}>
             <PostCard
-              id={post.id}
-              title={post.title}
-              description={post.createdAt}
-              image="image link"
+              id={id}
+              title={title}
+              description={description}
+              createdAt={createdAt}
+              thumbnail={thumbnail}
             />
           </li>
         </>
