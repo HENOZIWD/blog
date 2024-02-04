@@ -1,6 +1,6 @@
-import './globals.css';
 import type { Metadata } from 'next';
-import Sidebar from './sidebar';
+import Title from '@/components/title';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -15,10 +15,8 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <Sidebar />
-        <main className="flex min-h-screen w-screen flex-col items-center justify-between p-24
-      max-lg:block"
-        >
+        <main className="mx-auto my-0 flex min-h-screen flex-col gap-4 py-4 lg:w-[1024px]">
+          <Title />
           {children}
         </main>
       </body>

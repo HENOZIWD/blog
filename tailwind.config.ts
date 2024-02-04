@@ -7,7 +7,12 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-
+    extend: {
+      colors: {
+        'newspaper-dark': '#2a2a2a',
+        'newspaper-darkgray': '#666666',
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/typography'),
