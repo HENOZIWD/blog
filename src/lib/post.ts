@@ -13,25 +13,27 @@ const postDir = path.join(process.cwd(), path.join('public', 'post'));
 
 export async function getAllPostCard() {
   const directories = fs.readdirSync(postDir, { withFileTypes: true });
-  const postsData: PostCardProps[] = [];
-  directories.filter((dir) => dir.isDirectory()).forEach((dir) => {
-    const postPath = path.join(postDir, dir.name, `${dir.name}.md`);
+  const postsData = directories.filter((dir) => dir.isDirectory())
+    .reduceRight<PostCardProps[]>((acc, cur) => {
+    const postPath = path.join(postDir, cur.name, `${cur.name}.md`);
     if (fs.existsSync(postPath)) {
       const post = fs.readFileSync(postPath, 'utf-8');
       const matterResult = matter(post);
 
-      const thumbnailPath = path.join(postDir, dir.name, 'images');
+      const thumbnailPath = path.join(postDir, cur.name, 'images');
       const images = fs.existsSync(thumbnailPath) ? fs.readdirSync(thumbnailPath) : null;
 
-      postsData.push({
-        id: dir.name,
+      acc.push({
+        id: cur.name,
         title: matterResult.data.title,
         description: matterResult.data.description,
         createdAt: matterResult.data.createdAt,
-        thumbnail: images && images.length > 0 ? `/post/${dir.name}/images/${images[0]}` : null,
+        thumbnail: images && images.length > 0 ? `/post/${cur.name}/images/${images[0]}` : null,
       });
     }
-  });
+
+    return acc;
+  }, []);
 
   return postsData;
 }
