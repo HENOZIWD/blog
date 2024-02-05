@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Source-Han-Serif-KR';
+  src: url('/fonts/Source_Han_Serif_KR/SourceHanSerifKR-VF.otf');
+  font-weight: 100 900;
+}
+
+body {
+  font-family: 'Source-Han-Serif-KR', sans-serif;
+  font-weight: 500;
+}
