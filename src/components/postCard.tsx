@@ -6,8 +6,8 @@ export default function PostCard({
   id, title, description, createdAt, thumbnail,
 }: PostCardProps) {
   return (
-    <div className="flex gap-4">
-      <section className="w-1/2">
+    <div className="flex flex-row gap-4 max-lg:flex-col-reverse">
+      <section className="lg:w-1/2">
         <h2 className="break-normal text-[40px] font-bold text-newspaper-dark">
           <Link href={`/post/${id}`}>
             {title}
@@ -20,14 +20,17 @@ export default function PostCard({
           {createdAt}
         </p>
       </section>
-      <div className="w-0 border-l border-l-newspaper-darkgray/20" />
-      <div className="relative min-h-[331px] w-1/2">
+      <div className="w-0 border-l border-l-newspaper-darkgray/20 max-lg:hidden" />
+      <div className="relative aspect-video lg:aspect-[4/3] lg:w-1/2">
         {thumbnail ? (
-          <Image
-            src={thumbnail}
-            alt="thumbnail"
-            fill
-          />
+          <Link href={`/post/${id}`}>
+            <Image
+              className="object-cover"
+              src={thumbnail}
+              alt="thumbnail"
+              fill
+            />
+          </Link>
         ) : null}
       </div>
     </div>
