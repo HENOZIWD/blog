@@ -13,7 +13,12 @@ export default async function Home() {
         <>
           {index === 0
             ? null
-            : <div className="h-0 w-full border-t border-t-newspaper-darkgray" />}
+            : (
+              <div
+                key={id}
+                className="h-0 w-full border-t border-t-newspaper-darkgray"
+              />
+            )}
           <li key={id}>
             <PostCard
               id={id}

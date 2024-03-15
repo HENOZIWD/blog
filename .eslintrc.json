@@ -10,6 +10,9 @@
   },
   "rules": {
     "global-require": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-unstable-nested-components": "off",
+    "react/no-children-prop": "off"
   }
 }
