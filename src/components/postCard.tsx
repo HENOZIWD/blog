@@ -27,7 +27,7 @@ export default function PostCard({
             <Image
               className="object-cover"
               src={thumbnail}
-              alt="thumbnail"
+              alt={`${title} thumbnail`}
               fill
             />
           </Link>
