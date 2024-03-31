@@ -1,5 +1,21 @@
-import { getAllPostId, getPost } from '@/lib/post';
+import { Metadata } from 'next';
+import { getAllPostId, getPost, getPostCard } from '@/lib/post';
 import CustomMarkdown from '@/components/customMarkdown';
+
+interface Props {
+  params: { id: string }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = params;
+
+  const post = await getPostCard(id);
+
+  return {
+    title: post?.title,
+    description: post?.description,
+  };
+}
 
 export async function generateStaticParams() {
   const postIds = await getAllPostId();
