@@ -11,29 +11,36 @@ interface Post {
 
 const postDir = path.join(process.cwd(), path.join('public', 'post'));
 
+export async function getPostCard(id: string): Promise<PostCardProps | null> {
+  const postPath = path.join(postDir, id, `${id}.md`);
+  if (fs.existsSync(postPath)) {
+    const post = fs.readFileSync(postPath, 'utf-8');
+    const matterResult = matter(post);
+
+    const thumbnailPath = path.join(postDir, id, 'images');
+    const images = fs.existsSync(thumbnailPath) ? fs.readdirSync(thumbnailPath) : null;
+
+    return {
+      id,
+      title: matterResult.data.title,
+      description: matterResult.data.description,
+      createdAt: matterResult.data.createdAt,
+      thumbnail: images && images.length > 0 ? `/post/${id}/images/${images[0]}` : null,
+    };
+  }
+
+  return null;
+}
+
 export async function getAllPostCard() {
   const directories = fs.readdirSync(postDir, { withFileTypes: true });
   const postsData = directories.filter((dir) => dir.isDirectory())
-    .reduceRight<PostCardProps[]>((acc, cur) => {
-    const postPath = path.join(postDir, cur.name, `${cur.name}.md`);
-    if (fs.existsSync(postPath)) {
-      const post = fs.readFileSync(postPath, 'utf-8');
-      const matterResult = matter(post);
+    .reduceRight<Promise<PostCardProps[]>>(async (accPromise, cur) => {
+    const acc = await accPromise;
+    const currentPostCard = await getPostCard(cur.name);
 
-      const thumbnailPath = path.join(postDir, cur.name, 'images');
-      const images = fs.existsSync(thumbnailPath) ? fs.readdirSync(thumbnailPath) : null;
-
-      acc.push({
-        id: cur.name,
-        title: matterResult.data.title,
-        description: matterResult.data.description,
-        createdAt: matterResult.data.createdAt,
-        thumbnail: images && images.length > 0 ? `/post/${cur.name}/images/${images[0]}` : null,
-      });
-    }
-
-    return acc;
-  }, []);
+    return currentPostCard ? [...acc, currentPostCard] : acc;
+  }, Promise.resolve([]));
 
   return postsData;
 }
