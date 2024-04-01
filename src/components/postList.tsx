@@ -8,7 +8,7 @@ interface PostListProps {
 
 export default function PostList({ posts }: PostListProps) {
   return (
-    <ul className="flex flex-col gap-8 max-lg:px-4">
+    <ul className="flex flex-col gap-8 px-4">
       {posts.map(({
         id, title, description, createdAt, thumbnail,
       }, index) => (
